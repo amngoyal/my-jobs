@@ -36,6 +36,8 @@ const RecruiterReducer = function (state = initialState, actions) {
         postedJobs: [],
         jobCandidates: [],
         loading: false,
+        totalPostedJobs: 0,
+        postedJobsLoading: false,
         candidateLoading: false,
       };
     case CANDIDATE_LOADING:
@@ -69,6 +71,8 @@ const RecruiterReducer = function (state = initialState, actions) {
       return {
         ...state,
         loading: false,
+        postedJobsLoading: false,
+        candidateLoading: false,
         error: actions.data,
       };
     default:

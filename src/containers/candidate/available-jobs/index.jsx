@@ -124,18 +124,20 @@ const AvailableJobs = (props) => {
           )}
         </JobCardContainer>
       </AvailableJobsContent>
-      <PaginationContainer>
-        <Pagination
-          count={
-            totalJobCount % 20 === 0
-              ? parseInt(totalJobCount / 20)
-              : parseInt(totalJobCount / 20) + 1
-          }
-          variant="outlined"
-          shape="rounded"
-          onChange={handlePaginationChange}
-        />
-      </PaginationContainer>
+      {!!totalJobCount && (
+        <PaginationContainer>
+          <Pagination
+            count={
+              totalJobCount % 20 === 0
+                ? parseInt(totalJobCount / 20)
+                : parseInt(totalJobCount / 20) + 1
+            }
+            variant="outlined"
+            shape="rounded"
+            onChange={handlePaginationChange}
+          />
+        </PaginationContainer>
+      )}
 
       <CustomDialog
         fullWidth

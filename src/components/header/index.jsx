@@ -73,7 +73,7 @@ const Header = (props) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-    props.history.push("/login");
+    props.history.push("/");
     setOpen(false);
     props.recruietrDataReset();
     props.candidateDataReset();

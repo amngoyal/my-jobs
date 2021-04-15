@@ -98,7 +98,7 @@ const WelcomePage = (props) => {
               alt="solaytic"
             ></img>
             <img
-              src="https://leafletgroup.com/wp-content/uploads/24.png"
+              src="https://workonlinehome.com/wp-content/uploads/2019/06/liva.png"
               alt="solaytic"
             ></img>
             <img
@@ -106,7 +106,7 @@ const WelcomePage = (props) => {
               alt="solaytic"
             ></img>
             <img
-              src="https://leafletgroup.com/wp-content/uploads/24.png"
+              src="https://workonlinehome.com/wp-content/uploads/2019/06/liva.png"
               alt="solaytic"
             ></img>
             <img
@@ -114,7 +114,7 @@ const WelcomePage = (props) => {
               alt="solaytic"
             ></img>
             <img
-              src="https://leafletgroup.com/wp-content/uploads/24.png"
+              src="https://workonlinehome.com/wp-content/uploads/2019/06/liva.png"
               alt="solaytic"
             ></img>
             <img
@@ -122,7 +122,7 @@ const WelcomePage = (props) => {
               alt="solaytic"
             ></img>
             <img
-              src="https://leafletgroup.com/wp-content/uploads/24.png"
+              src="https://workonlinehome.com/wp-content/uploads/2019/06/liva.png"
               alt="solaytic"
             ></img>
             <img

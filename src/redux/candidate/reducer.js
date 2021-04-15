@@ -44,6 +44,9 @@ const CandidateReducer = function (state = initialState, actions) {
         availableJobs: [],
         appliedJobs: [],
         loading: false,
+        availableJobsLoading: false,
+        appliedJobsLoading: false,
+        totalAvailableJobcount: 0,
         candidateLoading: false,
       };
 
@@ -78,6 +81,7 @@ const CandidateReducer = function (state = initialState, actions) {
         ...state,
         loading: false,
         availableJobsLoading: false,
+        appliedJobsLoading: false,
         error: actions.data,
       };
     default:
