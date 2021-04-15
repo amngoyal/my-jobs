@@ -12,10 +12,12 @@ import {
   DialogTitleContainer,
   CustomDialog,
   NoPostJobContainer,
+  PaginationContainer,
 } from "./styles";
 import { AiFillHome } from "react-icons/ai";
 import { GoLocation } from "react-icons/go";
 import {
+  CircularProgress,
   DialogActions,
   DialogContent,
   DialogContentText,
@@ -32,12 +34,19 @@ import {
   getAppliedJobs,
 } from "../../../redux/candidate/actions";
 import { GrDocumentText } from "react-icons/gr";
+import { Pagination } from "@material-ui/lab";
 
 const AvailableJobs = (props) => {
-  const { getAllAvailableJobs, availableJobs, applyToJob } = props;
+  const {
+    getAllAvailableJobs,
+    availableJobs,
+    applyToJob,
+    totalJobCount,
+    loading,
+  } = props;
 
   useEffect(() => {
-    getAllAvailableJobs();
+    getAllAvailableJobs(1);
   }, []);
 
   // *********************** states *******************
@@ -60,6 +69,10 @@ const AvailableJobs = (props) => {
     applyToJob(jobId, closeDialog);
   };
 
+  const handlePaginationChange = (e, page) => {
+    getAllAvailableJobs(page);
+  };
+
   return (
     <AvailableJobsContainer>
       <Header candidate />
@@ -73,31 +86,51 @@ const AvailableJobs = (props) => {
         <h1>Available jobs for you</h1>
 
         <JobCardContainer>
-          {availableJobs?.length === 0 ? (
+          {loading ? (
             <NoPostJobContainer>
-              <GrDocumentText />
-              <p>Available jobs will show here!</p>
+              <CircularProgress color="white" />
             </NoPostJobContainer>
           ) : (
             <>
-              {availableJobs.map((item) => (
-                <JobCard key={item.id}>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                  <JobCardActions>
-                    <JobLocation>
-                      <GoLocation />
-                      <p> {item.location}</p>
-                    </JobLocation>
-                    <ViewButton onClick={(e) => handleOpenDialog(e, item)}>
-                      Apply
-                    </ViewButton>
-                  </JobCardActions>
-                </JobCard>
-              ))}
+              {availableJobs?.length === 0 ? (
+                <NoPostJobContainer>
+                  <GrDocumentText />
+                  <p>Available jobs will show here!</p>
+                </NoPostJobContainer>
+              ) : (
+                <>
+                  {availableJobs?.map((item) => (
+                    <JobCard key={item.id}>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                      <JobCardActions>
+                        <JobLocation>
+                          <GoLocation />
+                          <p> {item.location}</p>
+                        </JobLocation>
+                        <ViewButton onClick={(e) => handleOpenDialog(e, item)}>
+                          Apply
+                        </ViewButton>
+                      </JobCardActions>
+                    </JobCard>
+                  ))}
+                </>
+              )}
             </>
           )}
         </JobCardContainer>
+        <PaginationContainer>
+          <Pagination
+            count={
+              totalJobCount % 20 === 0
+                ? parseInt(totalJobCount / 20)
+                : parseInt(totalJobCount / 20) + 1
+            }
+            variant="outlined"
+            shape="rounded"
+            onChange={handlePaginationChange}
+          />
+        </PaginationContainer>
       </AvailableJobsContent>
 
       <CustomDialog
@@ -121,6 +154,10 @@ const AvailableJobs = (props) => {
           <p>
             <b>Profile:</b> {jobDetails.title}
           </p>
+          <p>
+            <b>Description:</b> {jobDetails.description}
+          </p>
+
           <p>
             <b>Location:</b> {jobDetails.location}
           </p>
@@ -147,12 +184,14 @@ const mapStateToProps = (state) => {
     user: state.user.data,
     appliedJobs: state.candidate.appliedJobs,
     availableJobs: state.candidate.availableJobs,
+    totalJobCount: state.candidate.totalAvailableJobcount,
+    loading: state.candidate.availableJobsLoading,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllAvailableJobs: () => dispatch(getAvailableJobs()),
+    getAllAvailableJobs: (page) => dispatch(getAvailableJobs(page)),
     getAllAppliedJobs: () => dispatch(getAppliedJobs()),
     applyToJob: (jobId, closeDialog) =>
       dispatch(applyToNewJob(jobId, closeDialog)),

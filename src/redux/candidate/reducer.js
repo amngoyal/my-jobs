@@ -5,12 +5,17 @@ import {
   SET_APPLIED_JOBS,
   APPY_TO_JOB,
   RESET_DATA,
+  AVAILABLE_JOBS_LOADING,
+  APPLIED_JOBS_LOADING,
 } from "./types";
 
 const initialState = {
   availableJobs: [],
   appliedJobs: [],
   loading: false,
+  availableJobsLoading: false,
+  appliedJobsLoading: false,
+  totalAvailableJobcount: 0,
   candidateLoading: false,
 };
 
@@ -21,6 +26,19 @@ const CandidateReducer = function (state = initialState, actions) {
         ...state,
         loading: true,
       };
+
+    case AVAILABLE_JOBS_LOADING:
+      return {
+        ...state,
+        availableJobsLoading: true,
+      };
+
+    case APPLIED_JOBS_LOADING:
+      return {
+        ...state,
+        appliedJobsLoading: true,
+      };
+
     case RESET_DATA:
       return {
         availableJobs: [],
@@ -33,13 +51,16 @@ const CandidateReducer = function (state = initialState, actions) {
       return {
         ...state,
         appliedJobs: actions.data,
-        loading: false,
+        appliedJobsLoading: false,
       };
+
     case SET_AVAILABLE_JOBS:
+      console.log(actions);
       return {
         ...state,
-        availableJobs: actions.data,
-        loading: false,
+        availableJobs: actions.data.availableJobs,
+        totalAvailableJobcount: actions.data.totalCount,
+        availableJobsLoading: false,
       };
     case APPY_TO_JOB:
       console.log(actions.data);
@@ -50,11 +71,13 @@ const CandidateReducer = function (state = initialState, actions) {
       return {
         ...state,
         availableJobs: availableJobs,
+        totalAvailableJobcount: state.totalAvailableJobcount - 1,
       };
     case ERROR:
       return {
         ...state,
         loading: false,
+        availableJobsLoading: false,
         error: actions.data,
       };
     default:

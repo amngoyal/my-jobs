@@ -53,6 +53,17 @@ export const JobCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
+  h3 {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  p {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 `;
 
 export const JobCardActions = styled.div`
@@ -152,5 +163,21 @@ export const NoPostJobContainer = styled.div`
 
   p {
     margin-bottom: 1.5rem;
+  }
+`;
+
+export const PaginationContainer = styled.div`
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  ul button {
+    background-color: #43afff33;
+    opacity: 1;
+    color: #303f60;
+  }
+
+  li {
   }
 `;

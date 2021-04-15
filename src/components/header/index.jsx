@@ -107,7 +107,7 @@ const Header = (props) => {
             onClick={handleToggle}
           >
             <Avatar className={classes.avatar}>
-              {props.user.data.name[0].toUpperCase()}
+              {props.user.data?.name[0]?.toUpperCase()}
             </Avatar>
             <AiFillCaretDown />
           </div>

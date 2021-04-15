@@ -1,5 +1,7 @@
 import {
+  APPLIED_JOBS_LOADING,
   APPY_TO_JOB,
+  AVAILABLE_JOBS_LOADING,
   ERROR,
   LOADING,
   RESET_DATA,
@@ -11,6 +13,18 @@ import axiosInstance from "../../infrastructure/axios";
 export const startLoading = () => {
   return {
     type: LOADING,
+  };
+};
+
+export const startAvailableJobsLoading = () => {
+  return {
+    type: AVAILABLE_JOBS_LOADING,
+  };
+};
+
+export const startAppliedJobsLoading = () => {
+  return {
+    type: APPLIED_JOBS_LOADING,
   };
 };
 
@@ -41,22 +55,28 @@ export const applyToJob = (jobId) => {
     data: jobId,
   };
 };
+
 export const resetCandidateData = () => {
   return {
     type: RESET_DATA,
   };
 };
 
-export const getAvailableJobs = () => {
+export const getAvailableJobs = (page) => {
   return async (dispatch) => {
-    dispatch(startLoading());
+    dispatch(startAvailableJobsLoading());
     try {
-      const res = await axiosInstance.get("/candidates/jobs?page=1", {
+      const res = await axiosInstance.get(`/candidates/jobs?page=${page}`, {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
-      dispatch(setAvailableJobs(res.data?.data ? res.data?.data : []));
+      dispatch(
+        setAvailableJobs({
+          availableJobs: res.data?.data ? res.data?.data : [],
+          totalCount: res.data?.metadata?.count,
+        })
+      );
       console.log("candidate", res);
     } catch (err) {
       console.log(err);
@@ -67,7 +87,7 @@ export const getAvailableJobs = () => {
 
 export const getAppliedJobs = () => {
   return async (dispatch) => {
-    dispatch(startLoading());
+    dispatch(startAppliedJobsLoading());
     try {
       const res = await axiosInstance.get("/candidates/jobs/applied", {
         headers: {

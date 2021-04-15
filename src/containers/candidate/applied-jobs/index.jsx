@@ -16,6 +16,7 @@ import {
 import { AiFillHome } from "react-icons/ai";
 import { GoLocation } from "react-icons/go";
 import {
+  CircularProgress,
   DialogActions,
   DialogContent,
   DialogContentText,
@@ -37,7 +38,8 @@ import { GrDocumentText } from "react-icons/gr";
 const AvailableJobs = (props) => {
   const history = useHistory();
 
-  const { getAllAppliedJobs, appliedJobs, applyToJob } = props;
+  const { getAllAppliedJobs, appliedJobs, applyToJob, loading } = props;
+  console.log(loading);
 
   useEffect(() => {
     getAllAppliedJobs();
@@ -76,35 +78,44 @@ const AvailableJobs = (props) => {
         <h1>Your Applied Jobs</h1>
 
         <JobCardContainer>
-          {appliedJobs?.length === 0 ? (
+          {loading ? (
             <NoPostJobContainer>
-              <GrDocumentText />
-              <p>Your applied jobs will show here!</p>
-              <Button onClick={() => history.push("/home")}>
-                Apply for a Job
-              </Button>
+              <CircularProgress color="white" />
             </NoPostJobContainer>
           ) : (
             <>
-              {appliedJobs.map((item) => (
-                <JobCard key={item.id}>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                  <JobCardActions>
-                    <JobLocation>
-                      <GoLocation />
-                      <p> {item.location}</p>
-                    </JobLocation>
-                    <ViewButton
-                      onClick={(e) => handleOpenDialog(e, item)}
-                      disabled
-                    >
-                      <p>Applied at</p>
-                      <p>{formatDateString(item.updatedAt)}</p>
-                    </ViewButton>
-                  </JobCardActions>
-                </JobCard>
-              ))}
+              {" "}
+              {appliedJobs?.length === 0 ? (
+                <NoPostJobContainer>
+                  <GrDocumentText />
+                  <p>Your applied jobs will show here!</p>
+                  <Button onClick={() => history.push("/home")}>
+                    Apply for a Job
+                  </Button>
+                </NoPostJobContainer>
+              ) : (
+                <>
+                  {appliedJobs.map((item) => (
+                    <JobCard key={item.id}>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                      <JobCardActions>
+                        <JobLocation>
+                          <GoLocation />
+                          <p> {item.location}</p>
+                        </JobLocation>
+                        <ViewButton
+                          onClick={(e) => handleOpenDialog(e, item)}
+                          disabled
+                        >
+                          <p>Applied at</p>
+                          <p>{formatDateString(item.updatedAt)}</p>
+                        </ViewButton>
+                      </JobCardActions>
+                    </JobCard>
+                  ))}
+                </>
+              )}
             </>
           )}
         </JobCardContainer>
@@ -157,6 +168,7 @@ const mapStateToProps = (state) => {
     user: state.user.data,
     appliedJobs: state.candidate.appliedJobs,
     availableJobs: state.candidate.availableJobs,
+    loading: state.candidate.appliedJobsLoading,
   };
 };
 
