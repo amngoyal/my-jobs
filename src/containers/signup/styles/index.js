@@ -113,7 +113,6 @@ export const NavbarContent = styled.div`
 export const ProfileTypeCardsContainer = styled.div`
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 20px;
 `;
 
 export const ProfileTypeCard = styled.div`

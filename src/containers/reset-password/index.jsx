@@ -77,7 +77,8 @@ const ResetPassword = (props) => {
     };
 
     call();
-  }, []);
+    console.log("called");
+  }, [query]);
 
   return (
     <ResetPasswordContainer>

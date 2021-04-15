@@ -10,8 +10,8 @@ export const PostedJobContainer = styled.div`
   align-items: center;
   background: linear-gradient(
     180deg,
-    ${({ theme }) => theme.lightPurple} 35%,
-    ${({ theme }) => theme.lightBlue} 35%
+    ${({ theme }) => theme.lightPurple} 320px,
+    ${({ theme }) => theme.lightBlue} 320px
   );
 `;
 

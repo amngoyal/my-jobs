@@ -43,7 +43,7 @@ const AvailableJobs = (props) => {
 
   useEffect(() => {
     getAllAppliedJobs();
-  }, []);
+  }, [getAllAppliedJobs]);
 
   // *********************** states *******************
   const [openDialog, setOpenDialog] = useState(false);

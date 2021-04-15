@@ -54,7 +54,7 @@ const PostedJobs = (props) => {
 
   useEffect(() => {
     getPostedJobsData(1);
-  }, []);
+  }, [getPostedJobsData]);
 
   // *********************** states *******************
   const [openDialog, setOpenDialog] = useState(false);
@@ -119,7 +119,7 @@ const PostedJobs = (props) => {
                     </JobCard>
                   ))}
                 </>
-              )}{" "}
+              )}
             </>
           )}
         </JobCardContainer>
