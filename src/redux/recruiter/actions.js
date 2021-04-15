@@ -3,6 +3,7 @@ import {
   ERROR,
   LOADING,
   POST_JOB,
+  RESET_DATA,
   SET_JOB_CANDIDATES,
   SET_POSTED_JOBS,
 } from "./types";
@@ -43,6 +44,12 @@ export const postJob = (data) => {
   return {
     type: POST_JOB,
     data: data,
+  };
+};
+
+export const resetRecruiterData = () => {
+  return {
+    type: RESET_DATA,
   };
 };
 

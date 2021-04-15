@@ -4,3 +4,4 @@ export const POST_JOB = "POST_JOB";
 export const LOADING = "LOADING";
 export const ERROR = "ERROR";
 export const CANDIDATE_LOADING = "CANDIDATE_LOADING";
+export const RESET_DATA = "RESET_DATA";

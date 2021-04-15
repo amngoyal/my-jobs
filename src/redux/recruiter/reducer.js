@@ -5,6 +5,7 @@ import {
   SET_JOB_CANDIDATES,
   POST_JOB,
   CANDIDATE_LOADING,
+  RESET_DATA,
 } from "./types";
 
 const initialState = {
@@ -22,6 +23,13 @@ const RecruiterReducer = function (state = initialState, actions) {
         loading: true,
       };
 
+    case RESET_DATA:
+      return {
+        postedJobs: [],
+        jobCandidates: [],
+        loading: false,
+        candidateLoading: false,
+      };
     case CANDIDATE_LOADING:
       return {
         ...state,

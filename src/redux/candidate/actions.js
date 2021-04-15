@@ -2,6 +2,7 @@ import {
   APPY_TO_JOB,
   ERROR,
   LOADING,
+  RESET_DATA,
   SET_APPLIED_JOBS,
   SET_AVAILABLE_JOBS,
 } from "./types";
@@ -38,6 +39,11 @@ export const applyToJob = (jobId) => {
   return {
     type: APPY_TO_JOB,
     data: jobId,
+  };
+};
+export const resetCandidateData = () => {
+  return {
+    type: RESET_DATA,
   };
 };
 

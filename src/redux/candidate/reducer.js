@@ -4,6 +4,7 @@ import {
   SET_AVAILABLE_JOBS,
   SET_APPLIED_JOBS,
   APPY_TO_JOB,
+  RESET_DATA,
 } from "./types";
 
 const initialState = {
@@ -19,6 +20,13 @@ const CandidateReducer = function (state = initialState, actions) {
       return {
         ...state,
         loading: true,
+      };
+    case RESET_DATA:
+      return {
+        availableJobs: [],
+        appliedJobs: [],
+        loading: false,
+        candidateLoading: false,
       };
 
     case SET_APPLIED_JOBS:

@@ -14,7 +14,6 @@ import {
   Navbar,
   NavbarContent,
 } from "./styles";
-import userEvent from "@testing-library/user-event";
 import { CircularProgress } from "@material-ui/core";
 
 const ForgotPassword = (props) => {

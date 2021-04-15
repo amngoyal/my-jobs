@@ -45,6 +45,7 @@ const ResetPassword = (props) => {
       password: true,
     });
   };
+
   const handleSubmitResetPasswordForm = (e) => {
     e.preventDefault();
 

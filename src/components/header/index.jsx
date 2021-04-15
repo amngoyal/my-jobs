@@ -13,6 +13,8 @@ import { AiFillCaretDown } from "react-icons/ai";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../redux/user/actions";
+import { resetCandidateData } from "../../redux/candidate/actions";
+import { resetRecruiterData } from "../../redux/recruiter/actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,6 +75,8 @@ const Header = (props) => {
     }
     props.history.push("/login");
     setOpen(false);
+    props.recruietrDataReset();
+    props.candidateDataReset();
   };
 
   return (
@@ -151,6 +155,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     logoutUser: () => dispatch(logout()),
+    candidateDataReset: () => dispatch(resetCandidateData()),
+    recruietrDataReset: () => dispatch(resetRecruiterData()),
   };
 };
 

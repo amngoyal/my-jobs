@@ -35,7 +35,6 @@ import {
   getCandidateList,
   getPostedJobs,
 } from "../../../redux/recruiter/actions";
-import { IconContext } from "react-icons";
 import { useHistory } from "react-router";
 
 const PostedJobs = (props) => {
@@ -95,7 +94,7 @@ const PostedJobs = (props) => {
                       <p>{item.location}</p>
                     </JobLocation>
                     <ViewButton onClick={(e) => handleOpenDialog(e, item)}>
-                      View Application
+                      View Applications
                     </ViewButton>
                   </JobCardActions>
                 </JobCard>
