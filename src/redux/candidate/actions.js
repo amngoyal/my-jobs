@@ -77,9 +77,7 @@ export const getAvailableJobs = (page) => {
           totalCount: res.data?.metadata?.count,
         })
       );
-      console.log("candidate", res);
     } catch (err) {
-      console.log(err);
       dispatch(setError(err.response?.data));
     }
   };
@@ -95,9 +93,7 @@ export const getAppliedJobs = () => {
         },
       });
       dispatch(setAppliedJobs(res.data?.data ? res.data?.data : []));
-      console.log("candidate", res);
     } catch (err) {
-      console.log(err);
       dispatch(setError(err.response?.data));
     }
   };
@@ -107,7 +103,7 @@ export const applyToNewJob = (jobId, closeDialog) => {
   return async (dispatch) => {
     dispatch(startLoading());
     try {
-      const res = await axiosInstance.post(
+      await axiosInstance.post(
         "/candidates/jobs",
         {
           jobId: jobId,
@@ -118,11 +114,8 @@ export const applyToNewJob = (jobId, closeDialog) => {
           },
         }
       );
-      console.log(res);
       closeDialog();
       dispatch(applyToJob(jobId));
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 };

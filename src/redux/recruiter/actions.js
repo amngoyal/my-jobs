@@ -70,7 +70,6 @@ export const getPostedJobs = (page) => {
           Authorization: localStorage.getItem("token"),
         },
       });
-      console.log("recruiter", res.data?.data);
       dispatch(
         setPostedJobs({
           postedJobs: res.data?.data ? res.data.data?.data : [],
@@ -78,7 +77,6 @@ export const getPostedJobs = (page) => {
         })
       );
     } catch (err) {
-      console.log(err);
       dispatch(setError(err.response?.data));
     }
   };
@@ -88,22 +86,19 @@ export const postNewJob = (payload, routeToHome, showError) => {
   return async (dispatch) => {
     dispatch(startLoading());
     try {
-      const res = await axiosInstance.post("/jobs", payload, {
+      await axiosInstance.post("/jobs", payload, {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
-      console.log(res);
       dispatch(postJob(payload));
       routeToHome();
     } catch (err) {
-      console.log(err.response?.data);
       dispatch(setError(err.response?.data));
       if (err.response?.data?.message) {
         showError(err.response?.data?.message);
       } else {
         const errKey = Object.keys(err.response?.data.errors[0])[0];
-        console.log(errKey);
         showError(err.response?.data.errors[0][errKey]);
       }
     }
@@ -122,11 +117,8 @@ export const getCandidateList = (jobId) => {
           },
         }
       );
-      console.log(res);
       dispatch(setJobCandidates(res.data?.data ? res.data.data : []));
-      console.log(res);
     } catch (err) {
-      console.log(err);
       dispatch(err.response?.data);
     }
   };

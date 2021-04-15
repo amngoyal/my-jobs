@@ -40,7 +40,6 @@ const AvailableJobs = (props) => {
   const history = useHistory();
 
   const { getAllAppliedJobs, appliedJobs, applyToJob, loading } = props;
-  console.log(loading);
 
   useEffect(() => {
     getAllAppliedJobs();

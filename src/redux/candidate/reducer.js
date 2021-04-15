@@ -58,7 +58,6 @@ const CandidateReducer = function (state = initialState, actions) {
       };
 
     case SET_AVAILABLE_JOBS:
-      console.log(actions);
       return {
         ...state,
         availableJobs: actions.data.availableJobs,
@@ -66,8 +65,6 @@ const CandidateReducer = function (state = initialState, actions) {
         availableJobsLoading: false,
       };
     case APPY_TO_JOB:
-      console.log(actions.data);
-
       let availableJobs = state.availableJobs;
       availableJobs = availableJobs.filter((job) => job.id !== actions.data);
 
