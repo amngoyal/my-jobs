@@ -111,7 +111,7 @@ const AvailableJobs = (props) => {
                           onClick={(e) => handleOpenDialog(e, item)}
                           disabled
                         >
-                          <p>Applied at</p>
+                          <p>Job posted on</p>
                           <p>{formatDateString(item.updatedAt)}</p>
                         </ViewButton>
                       </JobCardActions>
