@@ -33,6 +33,10 @@ export const PageRoute = styled.div`
   p {
     margin-left: 5px;
   }
+  a {
+    text-decoration: none;
+    color: white;
+  }
 `;
 
 export const JobCardContainer = styled.div`

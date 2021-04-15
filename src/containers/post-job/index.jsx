@@ -14,6 +14,7 @@ import {
   InputLabel,
   PageRouteText,
 } from "./styles";
+import { Link } from "react-router-dom";
 
 const PostJob = (props) => {
   const { postJob, loading } = props;
@@ -58,9 +59,9 @@ const PostJob = (props) => {
     }
 
     const data = {
-      title: jobTitle,
-      description: description,
-      location: location,
+      title: jobTitle.trim(),
+      description: description.trim(),
+      location: location.trim(),
     };
 
     const routeToHome = () => {
@@ -76,7 +77,10 @@ const PostJob = (props) => {
         <Header />
         <PageRouteText>
           <AiFillHome></AiFillHome>
-          <p>Home {">"} Post a Job</p>
+          <p>
+            {" "}
+            <Link to="/home">Home</Link> {">"} Post a Job
+          </p>
         </PageRouteText>
 
         <PostJobFormCard>

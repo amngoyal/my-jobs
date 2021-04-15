@@ -30,6 +30,10 @@ export const PageRouteText = styled.div`
     margin-left: 5px;
     text-align: left;
   }
+  a {
+    text-decoration: none;
+    color: white;
+  }
 `;
 
 export const PostJobFormCard = styled.div`

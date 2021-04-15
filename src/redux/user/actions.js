@@ -76,7 +76,7 @@ export const login = (payload, routeToHome, showError) => {
     dispatch(startLoginLoading());
     try {
       const res = await axiosInstance.post("/auth/login", {
-        email: payload.email,
+        email: payload.email.trim(),
         password: payload.password,
       });
       dispatch(loginUser(res.data.data));
@@ -103,18 +103,18 @@ export const register = (payload, routeToLogin, showError) => {
     console.log(payload);
     try {
       const res = await axiosInstance.post("/auth/register", {
-        email: payload.email,
+        email: payload.email.trim(),
         userRole: payload.userRole,
         password: payload.password,
         confirmPassword: payload.confirmPassword,
-        name: payload.name,
-        skills: payload.skills,
+        name: payload.name.trim(),
+        skills: payload.skills.trim(),
       });
       console.log(res);
       dispatch(registerUser());
       routeToLogin();
     } catch (err) {
-      console.log(err.response?.data);
+      console.log(err);
       dispatch(setError());
       if (err.response?.data?.message) {
         showError(err.response?.data?.message);

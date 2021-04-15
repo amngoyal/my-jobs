@@ -34,6 +34,7 @@ import {
 } from "../../../redux/candidate/actions";
 import { formatDateString } from "../../../lib/globalFunctions";
 import { GrDocumentText } from "react-icons/gr";
+import { Link } from "react-router-dom";
 
 const AvailableJobs = (props) => {
   const history = useHistory();
@@ -72,7 +73,9 @@ const AvailableJobs = (props) => {
       <AvailableJobsContent>
         <PageRoute>
           <AiFillHome></AiFillHome>
-          <p>Home</p>
+          <p>
+            <Link to="/home">Home</Link> {">"} Applied Jobs
+          </p>
         </PageRoute>
 
         <h1>Your Applied Jobs</h1>
