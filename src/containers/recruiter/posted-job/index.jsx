@@ -50,6 +50,7 @@ const PostedJobs = (props) => {
     postedJobs,
     loading,
     totalJobCount,
+    isCandidatesLoading,
   } = props;
 
   useEffect(() => {
@@ -158,28 +159,36 @@ const PostedJobs = (props) => {
             applications
           </p>
           <ApplicantsCardWrapper>
-            {jobCandidates?.length === 0 ? (
+            {isCandidatesLoading ? (
               <NoFileContainer>
-                <GrDocumentText />
-                <p>No applications available!</p>
+                <CircularProgress color="white" />
               </NoFileContainer>
             ) : (
               <>
-                {jobCandidates?.map((item) => (
-                  <ApplicantCard key={item.id}>
-                    <ApplicantDetailsContainer>
-                      <Avatar></Avatar>
-                      <ApplicantName>
-                        <b>{item.name}</b>
-                        <p>{item.email}</p>
-                      </ApplicantName>
-                    </ApplicantDetailsContainer>
-                    <ApplicantSkillsContainer>
-                      <b>Skills</b>
-                      <p>{item.skills}</p>
-                    </ApplicantSkillsContainer>
-                  </ApplicantCard>
-                ))}
+                {jobCandidates?.length === 0 ? (
+                  <NoFileContainer>
+                    <GrDocumentText />
+                    <p>No applications available!</p>
+                  </NoFileContainer>
+                ) : (
+                  <>
+                    {jobCandidates?.map((item) => (
+                      <ApplicantCard key={item.id}>
+                        <ApplicantDetailsContainer>
+                          <Avatar></Avatar>
+                          <ApplicantName>
+                            <b>{item.name}</b>
+                            <p>{item.email}</p>
+                          </ApplicantName>
+                        </ApplicantDetailsContainer>
+                        <ApplicantSkillsContainer>
+                          <b>Skills</b>
+                          <p>{item.skills}</p>
+                        </ApplicantSkillsContainer>
+                      </ApplicantCard>
+                    ))}
+                  </>
+                )}
               </>
             )}
           </ApplicantsCardWrapper>
@@ -195,6 +204,7 @@ const mapStateToProps = (state) => {
     totalJobCount: state.recruiter.totalPostedJobs,
     jobCandidates: state.recruiter.jobCandidates,
     loading: state.recruiter.postedJobsLoading,
+    isCandidatesLoading: state.recruiter.candidateLoading,
   };
 };
 
