@@ -34,7 +34,7 @@ import { connect } from "react-redux";
 import {
   getCandidateList,
   getPostedJobs,
-} from "../../../redux/recruiter/action";
+} from "../../../redux/recruiter/actions";
 import { IconContext } from "react-icons";
 import { useHistory } from "react-router";
 

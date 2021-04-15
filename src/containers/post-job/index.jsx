@@ -1,9 +1,10 @@
+import { CircularProgress } from "@material-ui/core";
 import React, { useState } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { Button, Header, InputField } from "../../components";
-import { postNewJob } from "../../redux/recruiter/action";
+import { postNewJob } from "../../redux/recruiter/actions";
 import {
   PostJobContainer,
   PostJobUpperPanel,
@@ -15,21 +16,47 @@ import {
 } from "./styles";
 
 const PostJob = (props) => {
-  const { postJob } = props;
+  const { postJob, loading } = props;
 
   // ****************** states **********************
   const [jobTitle, setJobTitle] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
-  const [error, setError] = useState({
+  const [validationError, setValidationError] = useState({
     jobTitle: false,
     description: false,
     location: false,
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [error, setError] = useState(false);
+
   // ********************** handlers **********************
+  const handlePostJobError = (msg) => {
+    setErrorMessage(msg);
+    setError(true);
+    setValidationError({
+      jobTitle: true,
+      description: true,
+      location: true,
+    });
+  };
+
   const handleSubmitPostJobForm = (e) => {
     e.preventDefault();
+
+    if (jobTitle === "" || description === "" || location === "") {
+      setValidationError({
+        jobTitle: jobTitle === "",
+        description: description === "",
+        location: location === "",
+      });
+
+      setErrorMessage("All fields are mandatory.");
+      setError(true);
+      return;
+    }
+
     const data = {
       title: jobTitle,
       description: description,
@@ -40,7 +67,7 @@ const PostJob = (props) => {
       props.history.push("/home");
     };
 
-    postJob(data, routeToHome);
+    postJob(data, routeToHome, handlePostJobError);
   };
 
   return (
@@ -61,8 +88,15 @@ const PostJob = (props) => {
             <InputField
               placeholder="Enter job title"
               type="text"
-              onChange={(e) => setJobTitle(e.target.value)}
-              isInvalid={error.jobTitle}
+              onChange={(e) => {
+                setValidationError({
+                  jobTitle: false,
+                  description: false,
+                  location: false,
+                });
+                setJobTitle(e.target.value);
+              }}
+              isInvalid={validationError.jobTitle}
             ></InputField>
 
             <div>
@@ -70,9 +104,16 @@ const PostJob = (props) => {
             </div>
             <InputField
               type="text"
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => {
+                setValidationError({
+                  jobTitle: false,
+                  description: false,
+                  location: false,
+                });
+                setDescription(e.target.value);
+              }}
               placeholder="Enter job description"
-              isInvalid={error.description}
+              isInvalid={validationError.description}
             ></InputField>
 
             <div>
@@ -80,12 +121,22 @@ const PostJob = (props) => {
             </div>
             <InputField
               type="text"
-              onChange={(e) => setLocation(e.target.value)}
+              onChange={(e) => {
+                setValidationError({
+                  jobTitle: false,
+                  description: false,
+                  location: false,
+                });
+                setLocation(e.target.value);
+              }}
               placeholder="Enter location"
-              isInvalid={error.location}
+              isInvalid={validationError.location}
             ></InputField>
+            {error && <span>{errorMessage}</span>}
 
-            <Button type="submit">Post</Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? <CircularProgress color="white" /> : "Post"}
+            </Button>
           </PostJobForm>
         </PostJobFormCard>
       </PostJobUpperPanel>
@@ -95,13 +146,15 @@ const PostJob = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    loading: state.recruiter.loading,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    postJob: (payload, routeToHome) =>
-      dispatch(postNewJob(payload, routeToHome)),
+    postJob: (payload, routeToHome, showError) =>
+      dispatch(postNewJob(payload, routeToHome, showError)),
   };
 };
 

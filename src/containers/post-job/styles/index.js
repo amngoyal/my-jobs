@@ -68,16 +68,21 @@ export const PostJobForm = styled.form`
     margin-bottom: 5px;
   }
 
-  & > input {
-    margin-bottom: 20px;
+  > span {
+    text-align: right;
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
   }
 
   & > button {
-    margin-top: 20px;
+    margin-top: 40px;
   }
 `;
 
-export const InputLabel = styled.span``;
+export const InputLabel = styled.span`
+  margin-top: 20px;
+`;
 
 export const PostJobLowerPanel = styled.div`
   padding-top: 4rem;

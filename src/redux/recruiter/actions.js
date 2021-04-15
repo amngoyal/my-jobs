@@ -68,7 +68,7 @@ export const getPostedJobs = () => {
   };
 };
 
-export const postNewJob = (payload, routeToHome) => {
+export const postNewJob = (payload, routeToHome, showError) => {
   return async (dispatch) => {
     dispatch(startLoading());
     try {
@@ -81,8 +81,15 @@ export const postNewJob = (payload, routeToHome) => {
       dispatch(postJob(payload));
       routeToHome();
     } catch (err) {
-      console.log(err);
+      console.log(err.response?.data);
       dispatch(setError(err.response?.data));
+      if (err.response?.data?.message) {
+        showError(err.response?.data?.message);
+      } else {
+        const errKey = Object.keys(err.response?.data.errors[0])[0];
+        console.log(errKey);
+        showError(err.response?.data.errors[0][errKey]);
+      }
     }
   };
 };
