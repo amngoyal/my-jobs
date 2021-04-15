@@ -173,3 +173,19 @@ export const NoPostJobContainer = styled.div`
     margin-bottom: 1.5rem;
   }
 `;
+
+export const PaginationContainer = styled.div`
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  ul button {
+    background-color: #43afff33;
+    opacity: 1;
+    color: #303f60;
+  }
+
+  li {
+  }
+`;

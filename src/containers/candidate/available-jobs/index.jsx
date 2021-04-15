@@ -52,6 +52,7 @@ const AvailableJobs = (props) => {
   // *********************** states *******************
   const [openDialog, setOpenDialog] = useState(false);
   const [jobDetails, setJobDetails] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
 
   // ************************** handlers *************************
   const handleOpenDialog = (e, item) => {
@@ -70,7 +71,10 @@ const AvailableJobs = (props) => {
   };
 
   const handlePaginationChange = (e, page) => {
-    getAllAvailableJobs(page);
+    if (currentPage !== parseInt(page)) {
+      setCurrentPage(parseInt(page));
+      getAllAvailableJobs(page);
+    }
   };
 
   return (
@@ -119,19 +123,19 @@ const AvailableJobs = (props) => {
             </>
           )}
         </JobCardContainer>
-        <PaginationContainer>
-          <Pagination
-            count={
-              totalJobCount % 20 === 0
-                ? parseInt(totalJobCount / 20)
-                : parseInt(totalJobCount / 20) + 1
-            }
-            variant="outlined"
-            shape="rounded"
-            onChange={handlePaginationChange}
-          />
-        </PaginationContainer>
       </AvailableJobsContent>
+      <PaginationContainer>
+        <Pagination
+          count={
+            totalJobCount % 20 === 0
+              ? parseInt(totalJobCount / 20)
+              : parseInt(totalJobCount / 20) + 1
+          }
+          variant="outlined"
+          shape="rounded"
+          onChange={handlePaginationChange}
+        />
+      </PaginationContainer>
 
       <CustomDialog
         fullWidth

@@ -6,12 +6,15 @@ import {
   POST_JOB,
   CANDIDATE_LOADING,
   RESET_DATA,
+  POSTED_JOBS_LOADING,
 } from "./types";
 
 const initialState = {
   postedJobs: [],
+  totalPostedJobs: 0,
   jobCandidates: [],
   loading: false,
+  postedJobsLoading: false,
   candidateLoading: false,
 };
 
@@ -21,6 +24,11 @@ const RecruiterReducer = function (state = initialState, actions) {
       return {
         ...state,
         loading: true,
+      };
+    case POSTED_JOBS_LOADING:
+      return {
+        ...state,
+        postedJobsLoading: true,
       };
 
     case RESET_DATA:
@@ -39,8 +47,9 @@ const RecruiterReducer = function (state = initialState, actions) {
     case SET_POSTED_JOBS:
       return {
         ...state,
-        postedJobs: actions.data,
-        loading: false,
+        postedJobs: actions.data.postedJobs ? actions.data.postedJobs : [],
+        totalPostedJobs: actions.data.totalCount ? actions.data.totalCount : 0,
+        postedJobsLoading: false,
       };
     case SET_JOB_CANDIDATES:
       return {
@@ -54,6 +63,7 @@ const RecruiterReducer = function (state = initialState, actions) {
       return {
         ...state,
         postedJobs: updatedJobs,
+        loading: false,
       };
     case ERROR:
       return {

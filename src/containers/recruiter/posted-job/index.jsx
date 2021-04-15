@@ -18,11 +18,13 @@ import {
   ApplicantSkillsContainer,
   NoFileContainer,
   NoPostJobContainer,
+  PaginationContainer,
 } from "./styles";
 import { AiFillHome } from "react-icons/ai";
 import { GoLocation } from "react-icons/go";
 import {
   Avatar,
+  CircularProgress,
   DialogContent,
   DialogTitle,
   IconButton,
@@ -36,6 +38,7 @@ import {
   getPostedJobs,
 } from "../../../redux/recruiter/actions";
 import { useHistory } from "react-router";
+import { Pagination } from "@material-ui/lab";
 
 const PostedJobs = (props) => {
   const history = useHistory();
@@ -45,20 +48,30 @@ const PostedJobs = (props) => {
     getJobCandidates,
     jobCandidates,
     postedJobs,
+    loading,
+    totalJobCount,
   } = props;
 
   useEffect(() => {
-    getPostedJobsData();
+    getPostedJobsData(1);
   }, []);
 
   // *********************** states *******************
   const [openDialog, setOpenDialog] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // ************************** handlers *************************
   const handleOpenDialog = (e, item) => {
     e.preventDefault();
     getJobCandidates(item.id);
     setOpenDialog(true);
+  };
+
+  const handlePaginationChange = (e, page) => {
+    if (currentPage !== parseInt(page)) {
+      setCurrentPage(parseInt(page));
+      getPostedJobsData(page);
+    }
   };
 
   return (
@@ -74,35 +87,55 @@ const PostedJobs = (props) => {
         <h1>Jobs posted by you</h1>
 
         <JobCardContainer>
-          {postedJobs?.length === 0 ? (
+          {loading ? (
             <NoPostJobContainer>
-              <GrDocumentText />
-              <p>Your posted jobs will show here!</p>
-              <Button onClick={() => history.push("/post-job")}>
-                Post a Job
-              </Button>
+              <CircularProgress color="white" />
             </NoPostJobContainer>
           ) : (
             <>
-              {postedJobs?.map((item) => (
-                <JobCard key={item.id}>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                  <JobCardActions>
-                    <JobLocation>
-                      <GoLocation />
-                      <p>{item.location}</p>
-                    </JobLocation>
-                    <ViewButton onClick={(e) => handleOpenDialog(e, item)}>
-                      View Applications
-                    </ViewButton>
-                  </JobCardActions>
-                </JobCard>
-              ))}
+              {postedJobs?.length === 0 ? (
+                <NoPostJobContainer>
+                  <GrDocumentText />
+                  <p>Your posted jobs will show here!</p>
+                  <Button onClick={() => history.push("/post-job")}>
+                    Post a Job
+                  </Button>
+                </NoPostJobContainer>
+              ) : (
+                <>
+                  {postedJobs?.map((item) => (
+                    <JobCard key={item.id}>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                      <JobCardActions>
+                        <JobLocation>
+                          <GoLocation />
+                          <p>{item.location}</p>
+                        </JobLocation>
+                        <ViewButton onClick={(e) => handleOpenDialog(e, item)}>
+                          View Applications
+                        </ViewButton>
+                      </JobCardActions>
+                    </JobCard>
+                  ))}
+                </>
+              )}{" "}
             </>
           )}
         </JobCardContainer>
       </PostedJobContent>
+      <PaginationContainer>
+        <Pagination
+          count={
+            totalJobCount % 20 === 0
+              ? parseInt(totalJobCount / 20)
+              : parseInt(totalJobCount / 20) + 1
+          }
+          variant="outlined"
+          shape="rounded"
+          onChange={handlePaginationChange}
+        />
+      </PaginationContainer>
 
       <CustomDialog
         fullWidth
@@ -156,15 +189,16 @@ const PostedJobs = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
     postedJobs: state.recruiter.postedJobs,
+    totalJobCount: state.recruiter.totalPostedJobs,
     jobCandidates: state.recruiter.jobCandidates,
+    loading: state.recruiter.postedJobsLoading,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPostedJobsData: () => dispatch(getPostedJobs()),
+    getPostedJobsData: (page) => dispatch(getPostedJobs(page)),
     getJobCandidates: (jobId) => dispatch(getCandidateList(jobId)),
   };
 };

@@ -6,12 +6,19 @@ import {
   RESET_DATA,
   SET_JOB_CANDIDATES,
   SET_POSTED_JOBS,
+  POSTED_JOBS_LOADING,
 } from "./types";
 import axiosInstance from "../../infrastructure/axios";
 
 export const startLoading = () => {
   return {
     type: LOADING,
+  };
+};
+
+export const startPostedJobsLoading = () => {
+  return {
+    type: POSTED_JOBS_LOADING,
   };
 };
 
@@ -53,20 +60,22 @@ export const resetRecruiterData = () => {
   };
 };
 
-export const getPostedJobs = () => {
+export const getPostedJobs = (page) => {
   return async (dispatch) => {
-    dispatch(startLoading());
-    console.log("recruiter");
+    dispatch(startPostedJobsLoading());
 
     try {
-      const res = await axiosInstance.get("/recruiters/jobs", {
+      const res = await axiosInstance.get(`/recruiters/jobs?page=${page}`, {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
       });
-      console.log(res.data?.data.data);
+      console.log("recruiter", res.data?.data);
       dispatch(
-        setPostedJobs(res.data.data?.data != null ? res.data.data?.data : [])
+        setPostedJobs({
+          postedJobs: res.data?.data ? res.data.data?.data : [],
+          totalCount: res.data?.data.metadata.count,
+        })
       );
     } catch (err) {
       console.log(err);
